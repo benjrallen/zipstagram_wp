@@ -1,0 +1,226 @@
+@import 'partials/base';
+
+#posts-filter{
+	
+	& .search-box{
+		
+		//background: #badaff;
+		float: none;
+	
+		& .button{
+			//display: none;
+		}
+		
+		$inpHeight: 38px;
+		$inpSize: 16px;
+		$inpPad: 6px;
+		$inpWidth: 300px;
+		$inpColor: darken( #badaff, 60% );
+		& [name="q"]{
+			height: $inpHeight;
+			line-height: $inpHeight;
+			font-size: $inpSize;
+			padding: $inpPad/2 $inpPad;
+			width: $inpWidth;
+			
+			&:hover{
+				background: lighten( $inpColor, 70% );
+			}
+			&:focus{
+				background: lighten( $inpColor, 65% );
+			}
+			
+		}
+	}
+}
+
+$list-border: $base-grey;
+$hover-color: #eee;
+$active-color: #ddd;
+$exclude-color: red;
+$color: #fff;
+$pct: 10%;
+
+
+.ui-autocomplete.ui-menu{
+	background: $base-white;
+	max-width: 640px;
+	border: 1px solid $list-border;
+	max-height: 500px;
+	overflow-y: scroll;
+	
+	& li{
+		border-bottom: 1px solid $list-border;
+		@include padding-trailer();
+		@include padding-leader();
+		padding-left: 1em;
+		padding-right: 1em;
+		margin-bottom: 0;
+		
+		cursor: pointer;
+		cursor: hand;
+		
+		&:hover{
+			background: $hover-color;
+		}
+		&:active{
+			background: $active-color;
+		}
+		
+		& a{
+			color: $base-color;
+		}
+		
+		& .pic{
+			@include float-left;
+			width: 100px;
+			margin-right: 1em;
+			
+			& img{
+				display: block;
+				width: 100%;
+				height: auto;
+			}
+		}
+		
+		& .info{
+			& span{
+				display: block;
+				
+				&.exclude{
+					@include float-right;
+					display: block;
+					@include theme-hard-grad-button( $exclude-color, $color, 20%);
+					@include theme-hard-grad-button-hover( $exclude-color, $color, $pct);
+					@include padding-leader(0.25);
+					@include padding-trailer(0.25);
+					padding-left: 1em;
+					padding-right: 1em;
+					font-weight: bold;
+				}
+				
+				&.user{
+					@include adjust-font-size-to(16px);
+					font-weight: 600;
+				}
+				&.text{
+					@include adjust-font-size-to(14px, 1.25);
+				}
+				&.id{
+					@include float-right;
+					@include adjust-font-size-to(10px);
+					font-style: italic;
+				}
+			}
+		}
+	}
+}
+
+.edit-picture{
+	@include inline-block;
+	@include padding-leader( 1 );
+	//max-width: 1000px;
+	
+	& .pic, & .info{
+		@include inline-block;
+		vertical-align: top;
+	}
+	
+	& .pic{
+		//@include float-right;
+		//width: 100px;
+		//margin-right: 2em;
+		@include margin-trailer( 2 );
+		
+		& img{
+			display: block;
+			width: 100%;
+			height: auto;
+		}
+	}
+	
+	& .info{
+		width: 300px;
+		
+		& span{
+			display: block;
+			@include margin-trailer;
+			padding-left: 1em;
+			
+			&.user{
+				@include adjust-font-size-to(16px);
+				font-weight: 600;
+				@include text-shadow( white 0 1px 0 );
+			}
+			&.text{
+				@include adjust-font-size-to(14px, 1.25);
+			}
+			&.id{
+				@include float-right;
+				@include adjust-font-size-to(10px);
+				font-style: italic;
+				padding-left: 2em;
+			}
+		}
+	}
+	
+	//$bg: green;
+	$bg: darken( #badaff, 40% );
+	& form{
+		@include margin-leader();
+		@include margin-trailer();
+		
+		& .exclude{
+			@include float-left;
+			//border: 1px solid $exclude-color;
+			//color: darken( $exclude-color, 40% );
+			//background: lighten( $exclude-color, 40% );
+			padding-left: 1em;
+			padding-right: 1em;
+			margin-left: 1em;
+			@include theme-hard-grad-button( $exclude-color, $color, 20%);
+			@include theme-hard-grad-button-hover( $exclude-color, $color, $pct);
+			@include adjust-font-size-to( 16px );
+			@include padding-leader( 0.5 );
+			@include padding-trailer( 0.5 );
+			@include border-radius( 4px );
+
+		}
+		
+		& label, & input[type="checkbox"]{
+			@include inline-block;
+		}
+		& label{
+			//font-weight: bold;
+			margin-right: 1em;
+		}
+		& input[type="checkbox"]{
+			height: 16px;
+			width: 16px;
+			margin: 0;
+		}
+		
+		& input[type="submit"]{
+			background: #badaff;
+			@include float-right;
+			
+			margin-left: 1em;
+			padding-left: 2em;
+			padding-right: 2em;
+			@include padding-leader( 0.5 );
+			@include padding-trailer( 0.5 );
+			@include adjust-font-size-to( 16px );
+			
+			@include theme-hard-grad-button( $bg, $color, $pct);
+			@include theme-hard-grad-button-hover( $bg, $color, $pct);
+			
+			cursor: pointer;
+			cursor: hand;
+		}
+	}
+}
+
+
+.clearfix{
+	@include pie-clearfix;
+}

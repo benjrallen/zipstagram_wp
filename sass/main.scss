@@ -1,0 +1,355 @@
+@import 'partials/base';
+@import 'partials/leaflet';
+
+/* 
+
+Zipstagram Styles 1.0
+Author: Michael J. Champlin
+URL: http://mjchamplin.com
+
+*/
+
+/*	Resets  */
+
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figure,figcaption,hgroup,menu,header,footer,nav,section,summary,time,mark,audio,video{margin:0;padding:0;border:0}article,aside,canvas,figure,figure img,figcaption,hgroup,footer,header,nav,section,audio,video{display:block}a img{border:0}figure{position:relative}figure img{width:100%}
+
+
+html { height: 100%;}
+body { background: black; height: 100%; font-family: Helvetica, Arial, sans-serif; }
+
+
+#container {
+	height: 100%;
+	width: 100%;
+	
+}
+
+.line{
+	margin-left: -1px;
+	width: 1px;
+	height: 100%;
+	@include inline-block;
+}
+
+
+$header-height: 60px;
+#header{
+	position: fixed;
+	top: 0;
+	right: 0;
+	z-index: 3;
+	width: 100%;
+	height: $header-height;
+	border-bottom: 5px solid $base-green;
+	background-color: $base-white;
+	
+	& h1{
+		@include adjust-font-size-to( 28px );
+		//margin: 10px 0 0 30px;
+		height: 100%;
+		font-weight: normal;
+		margin-left: 1em;
+		font-family: "Helvetica", "Arial", sans-serif;
+		color: $base-color;
+		
+		& span{
+			@include inline-block;
+		}
+	}
+
+	& .right{
+		height: 100%;
+		position: absolute;
+		right: 0;
+		top: 0;
+		
+		& .line, & #nav{
+			@include inline-block;
+		}
+				
+		& #nav{
+			@include adjust-font-size-to( 14px, 0.5 );
+			text-transform: lowercase;
+			padding-right: 4em;
+			
+			& span{
+				@include inline-block;
+			
+				&.view{
+					color: $base-green;
+				}
+				&.current{
+					
+				}
+				&.hashtag{
+					border-left: 1px solid $base-color;
+					padding-left: 0.5em;
+					margin-left: 0.5em;
+					color: $base-green;
+					position: relative;
+					cursor: pointer;
+					cursor: hand;
+					
+					$selectRad: 6px;
+					& #hashSelect{
+						@include adjust-font-size-to( 12px, 1.25 );
+						background: $base-white;
+						display: none;
+						right: 0;
+						top: 2em;
+						@include pie;
+						position: absolute;
+						@include border-radius( 0 0 $selectRad $selectRad );
+						@include box-shadow( #000 0 2px 6px -3px );
+						padding-left: 1em;
+						padding-right: 1em;						
+						color: $base-orange;
+						
+						& div{
+							@include padding-leader(0.25);
+							@include padding-trailer(0.25);
+							cursor: pointer;
+							cursor: hand;
+							
+							&:hover{
+								color: darken( $base-orange, 20%);
+							}
+						}
+					}
+					
+					& .text{}
+					& .icon{
+						@include main-sprite;
+						background-position: 0 -260px;
+						height: 11px;
+						width: 11px;
+						margin-left: 0.25em;
+					}
+				}
+			}
+		}
+	}
+}
+
+#footer-wrap{
+	position: fixed; 
+	bottom: 0; 
+	left: 0;
+	width: 100%; 
+	z-index: 3; 
+	
+	& #carousel{
+		min-height: 100px;
+		position: relative;
+		z-index: 2;
+		
+		& #zip-logo { 
+			position: absolute; 
+			top: -1em;
+			right: 0;
+			width: 246px;
+			height: 186px;
+			@include main-sprite;
+			background-position: 0 0;
+		}
+	}
+
+/*
+ #carousel {
+		position: fixed; 
+		bottom: 130px;
+     width: 100%;
+     background-color: #000;
+     height: 70px;
+     padding: 10px 0;
+     background-color: rgba(0, 0, 0, .3);
+ }
+ 
+ #carousel img { float: left; display: block; margin-left: 8px;}
+ 
+#carousel .zoom {
+		float: left;
+     z-index: 0;
+ }
+#carousel .end {
+     margin-right: 0;
+ }
+ //.clear {
+ //    clear: both;
+ //}
+#carousel .zoom a img {
+     position: relative;
+ }
+*/
+
+	
+	& #footer{
+		position: relative;
+		border-top: 1px solid #888; 
+		background-color: #565a5c; 
+		height: 120px;
+		z-index: 1;
+	}
+}
+
+#map{
+	height: 100%;
+	width: 100%;
+	position: relative;
+	z-index: 1;
+}
+
+
+#popunder{
+	background: #000;
+	display: block;
+	@include opacity(0.2);
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	display: none;
+}
+#popup{
+	z-index: 0;
+	@include pie;
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: none;
+	background: $base-white;
+	@include inline-block;
+	@include padding-leader();
+	@include padding-trailer();
+	padding-left: 1em;
+	padding-right: 1em;
+	@include border-radius( 12px );
+	@include box-shadow( #000 0 6px 24px 0px );
+}
+
+
+
+.insta-wrap{
+	padding-left: 1em;
+	padding-right: 1em;
+	@include adjust-font-size-to( 14px );
+	
+	& .pic, & .info{
+		@include inline-block;
+		vertical-align: middle;
+	}
+	& .pic{
+		max-width: 260px;
+		margin-right: 1.5em;
+		
+		& img{
+			display: block;
+			width: 100%;
+			height: auto;
+		}
+	}
+	
+	& .info{
+		width: 260px;
+
+		@include padding-leader(2);
+		@include padding-trailer(2);
+
+		& .user{
+			@include padding-trailer();
+			
+			& span{
+				@include inline-block;
+				
+				&.user-pic{
+					max-width: 42px;
+					margin-right: 1em;
+					
+					& img{
+						display: block;
+						width: 100%;
+						height: auto;
+					}
+				}
+				&.user-name{
+					color: $base-orange;
+					font-weight: 600;
+				}
+			}
+		}
+		
+		& .description{
+			font-style: italic;
+			@include padding-trailer(2);
+			@include adjust-font-size-to( 12px, 1.25 );
+			& .tag{
+				color: $base-green;
+			}
+		}
+		
+		& .where{
+			//display: none;
+			
+			& span{
+				@include inline-block;
+				
+				&.title{
+					text-transform: uppercase;
+					font-weight: bold;
+					color: $base-green;
+					@include adjust-font-size-to( 11px );
+				}
+				&.location{}
+			}
+		}
+	}
+}
+
+/*
+function makeBlockContent( data ){
+	console.log( 'makeBlockContent', data );
+	
+	var block = '<div class="insta-wrap">'+
+					makeImageBlock( data.images.low_resolution )+
+					'<div class="info">'+
+						makeUserBlock( data.profile_picture, data.user )+
+						'<div class="description">'+
+							data.description+
+						'</div>'+
+						makeWhereZip( data.latitude, data.longitude )+
+					'</div>'+
+				'</div>';
+	
+	return block;
+}
+
+function makeWhereZip( lat, lng ){
+	return '<div lat="'+lat+'" lng="'+lng+'" class="where">'+
+				'<span class="title">Where I Zip</span>'+
+				'<span class="location"></span>'+
+			'</div>';
+}
+
+function makeUserBlock( pic, name ){
+	return '<div class="user">'+
+				'<span class="user-pic"><img src="'+pic+'" /></span>'+
+				'<span class="user-name">'+name+'</span>'+
+			'</div>';
+}
+
+function makeImageBlock( img ){
+	return '<div class="pic">'+
+				'<img src="'+img.url+'" />'+
+			'</div>'
+}
+*/
+
+.clearfix, .clear{
+	@include pie-clearfix;
+}
+
+#hashtag-json{
+	display: none;
+}
