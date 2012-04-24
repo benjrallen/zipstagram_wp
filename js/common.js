@@ -7,7 +7,7 @@
 		currentData = [],
 		carouselLeft = 0, //set in makeCarousel
 		currentImgIndex = 0, //used for the carousel
-		//hasTransitions = false,
+		hasTransitions = false,
 		carousel = null;
 		pic_popup = new Popup( 'popup', 'popunder' ),
 		cachePath = 'cache/';
@@ -23,13 +23,13 @@
 			w: 75
 		},		
 		border: 1,
-		time: 150
+		time: 300
 	};
 	
 	$(document).ready(function() {
 		
 		//test for css transitions
-		//hasTransitions = ( $('html.csstransitions').length ? true : false );
+		hasTransitions = ( $('html.csstransitions').length ? true : false );
 		
 		//create the hashtag select list
 		makeHashtagList();
@@ -75,9 +75,9 @@
 		var left = -1 * carousel.children().eq( currentImgIndex ).position().left + carouselLeft;
 		console.log('MOVE CAROUSEL', left);
 
-		//if( hasTransitions ){
+		if( hasTransitions ){
 			carousel.css({ left: left });
-		//}
+		}
 	}
 
 	function carouselClick(e){
@@ -146,7 +146,7 @@
 				left: data.pos.left,
 				height: img.small.h,
 				width: img.small.w
-			}, img.time, cloneAnimateCallback);		
+			}, img.time / 2, cloneAnimateCallback);		
 			
 			//console.log( 'clone off' );		
 			
@@ -165,6 +165,9 @@
 	function resetCarousel(){
 		console.log('RESET CAROUSEL');
 		
+		$('.clone').remove();
+		
+		carousel.html('');
 	}
 
 	function makeCarouselImage( data ){
