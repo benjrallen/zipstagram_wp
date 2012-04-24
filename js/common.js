@@ -76,7 +76,7 @@
 		//console.log('MOVE CAROUSEL', left);
 		$('.clone').trigger('mouseout');
 
-		if( !hasTransitions ){
+		if( hasTransitions ){
 			carousel.css({ left: left });
 		} else {
 			carousel.stop( false, false ).animate({

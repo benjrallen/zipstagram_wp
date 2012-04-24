@@ -83,7 +83,6 @@
   	</div>
 	  
 	  <div id="footer">
-	   hello
 	  </div>
 	</div><!-- Footer -->
 	
