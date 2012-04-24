@@ -151,7 +151,16 @@ $img-color: lighten( $base-grey, 40% );
 .clone{
 	position: fixed;
 	z-index: 2000;
-	border: $img-bord solid $img-color;
+	
+	& img{
+		border: $img-bord solid $img-color;
+		display: block;
+		height: 100%;
+		width: auto;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
 }
 
 
@@ -268,18 +277,22 @@ $img-color: lighten( $base-grey, 40% );
 								height: $small-height;
 								width: $small-width;
 								
-								//@include single-transition( all, $trans-time, ease-in-out );
+								@include single-transition( all, $trans-time, ease-in-out );
 							}
 							
 							&:hover{
 								z-index: 2;
+							}
+							
+							&.over{
+								z-index: 2;
 								
-								//& img{
-								//	height: $big-height;
-								//	width: $big-width;
-								//	top: -1 * floor( ($big-height - $small-height) / 2 ) + $img-bord;
-								//	left: -1 * floor( ($big-width - $small-width) / 2 ) + $img-bord;
-								//}
+								& img{
+									height: $big-height;
+									width: $big-width;
+									top: -1 * floor( ($big-height - $small-height) / 2 ) + $img-bord;
+									left: -1 * floor( ($big-width - $small-width) / 2 ) + $img-bord;
+								}
 							}
 						}
 					}
@@ -372,10 +385,7 @@ $img-color: lighten( $base-grey, 40% );
 	display: none;
 	background: $base-white;
 	@include inline-block;
-	@include padding-leader();
-	@include padding-trailer();
-	padding-left: 1em;
-	padding-right: 1em;
+	padding: 16px 12px;
 	@include border-radius( 12px );
 	@include box-shadow( #000 0 6px 24px 0px );
 	
@@ -384,17 +394,27 @@ $img-color: lighten( $base-grey, 40% );
 	$nav-spacing: 12px;
 	& .nav{
 		position: absolute;
-		top: 50%;
-		margin-top: -1 * floor( $nav-height / 2);
-		background: #bad;
+		top: 0;
+		height: 100%;
 		width: $nav-width;
-		height: $nav-height;
 		
 		&.next{
 			right: -( $nav-spacing + $nav-width );
 		}
 		&.prev{
 			left: -( $nav-spacing + $nav-width );
+		}
+		
+		& .icon{
+			@include inline-block;
+			vertical-align: middle;
+			position: absolute;
+			top: 50%;
+			left: 0;
+			margin-top: -1 * floor( $nav-height / 2);
+			background: #bad;
+			width: $nav-width;
+			height: $nav-height;
 		}
 	}
 	& .nav, & .close{
@@ -427,7 +447,8 @@ $img-color: lighten( $base-grey, 40% );
 		vertical-align: middle;
 	}
 	& .pic{
-		max-width: 260px;
+		width: 260px;
+		height: 260px;
 		margin-right: 1.5em;
 		
 		& img{

@@ -6,6 +6,8 @@
 		map = null,
 		currentData = [],
 		carouselLeft = 0, //set in makeCarousel
+		carouselWidth = 0, //set in makeCarousel
+		currentLeft = 0, //updated in moveCarousel
 		currentImgIndex = 0, //used for the carousel
 		hasTransitions = false,
 		carousel = null;
@@ -25,6 +27,11 @@
 		border: 1,
 		time: 300
 	};
+	//set the diff
+	img.diff = {
+		w: (img.big.w - img.small.w) / 2,
+		h: (img.big.h - img.small.h) / 2
+	}
 	
 	$(document).ready(function() {
 		
@@ -45,11 +52,18 @@
 		
 		carousel = $('#carousel-images');
 		
-		carouselLeft = parseInt( carousel.css('padding-left').replace('px', '') );
+		//track the carousel width
+		carouselWidth = carousel.parent().width();
+		$(window).resize(function(){
+			carouselWidth = carousel.parent().width();
+		});
+		
+		
+		currentLeft = carouselLeft = parseInt( carousel.css('padding-left').replace('px', '') );
 		console.log('MAKE CAROUSEL', carouselLeft );
 
 		var next = $('#carousel-wrap .next').click( carouselNext );
-		var prev = $('#carousel-wrap .prev').click( carouselPrev );
+		var prev = $('#carousel-wrap .prev').click( carouselPrev );		
 		
 	}
 
@@ -72,12 +86,12 @@
 //currentImgIndex
 
 	function moveCarousel(){
-		var left = -1 * carousel.children().eq( currentImgIndex ).position().left + carouselLeft;
-		//console.log('MOVE CAROUSEL', left);
+		currentLeft = -1 * carousel.children().eq( currentImgIndex ).position().left + carouselLeft;
+		console.log('MOVE CAROUSEL', currentLeft);
 		$('.clone').trigger('mouseout');
 
 		if( hasTransitions ){
-			carousel.css({ left: left });
+			carousel.css({ left: currentLeft });
 		} else {
 			carousel.stop( false, false ).animate({
 				left: left
@@ -99,44 +113,70 @@
 	
 
 	function carouselHoverOn(e){
-		//console.log('hoverOn')
 		
-		var pos = $(this).offset(),
+		var off = $(this).offset(),
+			pos = $(this).position(),
 			clone = $(this).data('clone');
-		
-		if( !clone ){
-			clone = $(this).clone(false)
-						//.hover( cloneOn, cloneOff)
-						.mouseout( cloneOff)
-						.addClass('clone')
-						.css({
-							height: img.small.h,
-							width: img.small.w,
-							top: pos.top,
-							left: pos.left
-						})
-						.data({ 
-							//hover: true,
-							parent: this,
-							pos: pos
-						})
-						.prependTo('body');
 
-			$(this).data({ clone: clone });
-			
+
+		//check if it is on the right or the left edge of the carousel and thus needs a clone to show properly
+		var needsClone = ( 
+			Math.floor( pos.left - img.diff.w + currentLeft ) < 0 ||
+			Math.floor( pos.left + currentLeft + img.small.w + img.diff.w ) > carouselWidth ?
+				true :
+				false
+		);
+
+		//console.log('hoverOn', pos, off, needsClone, carouselWidth)
+		if( !needsClone ){
+			hasTransitions ?
+				//use css3 trans if available
+				$(this).addClass('over') :
+				//otherwise, use javascript
+				$(this).children().stop(false, false).animate({
+					top: Math.floor( -1 * ( ( img.big.h - img.small.h ) / 2 ) + img.border),
+					left: Math.floor( -1 * ( ( img.big.w - img.small.w ) / 2 ) + img.border),
+					height: img.big.h,
+					width: img.big.w
+				}, img.time);
+				
 		} else {
-			clone.stop( false, false ).show(0);
+			if( !clone ){
+				clone = $(this).clone(false)
+							//.hover( cloneOn, cloneOff)
+							.mouseout( cloneOff)
+							.click( carouselClick )
+							.addClass('clone')
+							.css({
+								height: img.small.h,
+								width: img.small.w,
+								top: off.top,
+								left: off.left
+							})
+							.data({ 
+								//hover: true,
+								parent: this
+								//pos: off
+							})
+							.prependTo('body');
+
+				$(this).data({ clone: clone });
+
+			} else {
+				clone.children().stop( false, false ).show(0);
+			}
+
+			clone.children().animate({
+				top: Math.floor( -1 * ( ( img.big.h - img.small.h ) / 2 ) + img.border ),
+				left: Math.floor( -1 * ( ( img.big.w - img.small.w ) / 2 ) + img.border ),
+				height: img.big.h,
+				width: img.big.w
+			}, img.time);
+
 		}
-		
-		clone.animate({
-			top: Math.floor( -1 * ( ( img.big.h - img.small.h ) / 2 ) + img.border + pos.top ),
-			left: Math.floor( -1 * ( ( img.big.w - img.small.w ) / 2 ) + img.border + pos.left ),
-			height: img.big.h,
-			width: img.big.w
-		}, img.time);
-		
+
 		$('.clone').not(clone).trigger('mouseout');
-		
+
 	}
 	
 	function cloneOff(e){
@@ -145,21 +185,35 @@
 		
 		var data = $(this).data();
 				
-		$(this).stop(false, false).animate({
-			top: data.pos.top,
-			left: data.pos.left,
+		$(this).children().stop(false, false).animate({
+			top: 0,
+			left: 0,
 			height: img.small.h,
 			width: img.small.w
 		}, img.time / 2, cloneAnimateCallback);		
 			
 	}
 	
+	function carouselHoverOff(e){
+		//console.log( 'hover off' );
+		
+		hasTransitions ?
+			$(this).removeClass('over') :
+			$(this).children().stop(false, false).animate({
+				height: img.small.h,
+				width: img.small.w,
+				top: 0,
+				left: 0
+			//}, 30);
+			}, Math.floor( img.time / 2 ));
+	}
+	
 	function cloneAnimateCallback(e){
 		//console.log('animateCallback' );
 		
-		var parent = $(this).data('parent');
+		var parent = $(this).parent().data('parent');
 		$(parent).data({ clone: null });
-		$(this).remove();
+		$(this).parent().remove();
 		//$(this).hide(0);
 	}
 
@@ -183,8 +237,8 @@
 
 		//images animate with javascript if they are older browsers
 		//if( !hasTransitions )
-		//img.hover( carouselHoverOn, carouselHoverOff );
-		img.mouseover( carouselHoverOn);
+		pic.hover( carouselHoverOn, carouselHoverOff );
+		//img.mouseover( carouselHoverOn);
 
 		pic.appendTo( carousel );
 	}
@@ -392,8 +446,7 @@
 		this.popup = null;
 		this.under = null;
 		this.time = 250;
-		this.timeout = null;
-		this.timeoutTime = 500;
+		this.picWidth = 260;  //used so no timeout needs to be set
 		this.next = null;
 		this.prev = null;
 		this.content = null;
@@ -401,14 +454,16 @@
 
 		var that = this;
 
+		var navInner = '<div class="line"></div><div class="icon"></div>'
+
 		if( !$('#'+id).length ){
 			this.popup = $('<div />', { id: id }).prependTo('body');
 			//add the next button
-			this.next = $('<div />').addClass('next nav').click(function(e){
+			this.next = $('<div />', { html: navInner }).addClass('next nav').click(function(e){
 				that.onNextClick.apply( that, arguments );
 			}).appendTo( this.popup );
 			//add the prev button
-			this.prev = $('<div />').addClass('prev nav').click(function(e){
+			this.prev = $('<div />', { html: navInner }).addClass('prev nav').click(function(e){
 				that.onPrevClick.apply( that, arguments );
 			}).appendTo( this.popup );
 			//add the close button
@@ -456,14 +511,14 @@
 		//console.log( 'NEXT!', e, this );
 		var data = getNextPhotoById( this.getInstagramId() );
 		
-		this.setContent( makeBlockContent( data.properties ) );
+		this.setContent( makeBlockContent( data.properties ) ).position();
 	}
 
 	Popup.prototype.onPrevClick = function(e){
 		//console.log( 'PREV!', e, this);
 		var data = getPrevPhotoById( this.getInstagramId() );
 		
-		this.setContent( makeBlockContent( data.properties ) );
+		this.setContent( makeBlockContent( data.properties ) ).position();
 
 	}
 
@@ -482,7 +537,7 @@
 	}
 
 	Popup.prototype.close = function(){
-		clearTimeout( this.timeout );
+		//clearTimeout( this.timeout );
 
 		this.popup.hide( 0, function(){
 			$(this).css({ zIndex: 0 });
@@ -493,12 +548,21 @@
 	}
 
 	Popup.prototype.position = function(){
-		var left = Math.floor( ($(window).width() - this.popup.outerWidth()) / 2 );
+
+		var oW = this.popup.outerWidth(),
+			oH = this.popup.outerHeight()
+
+		if( oW < this.picWidth * 2 )
+			oW += this.picWidth;
+
+		var left = Math.floor( ($(window).width() - oW) / 2 );
+		
+
 
 		if( left < 0 )
 			left = 0;
 
-		var top = Math.floor( ($(window).height() - this.popup.outerHeight()) / 2 );
+		var top = Math.floor( ($(window).height() - oH) / 2 );
 		if( top < 0 )
 			top = 0;
 
@@ -507,8 +571,10 @@
 			left: left
 		});
 
-		var that = this;
+		console.log('position', oW, oH, left);
 
-		return this.timeout = setTimeout( function(){ that.position.call(that) }, that.timeoutTime );
+		//var that = this;
+
+		//return this.timeout = setTimeout( function(){ that.position.call(that) }, that.timeoutTime );
 	}
 })(jQuery);
