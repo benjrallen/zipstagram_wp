@@ -145,17 +145,13 @@
 		
 		var data = $(this).data();
 				
-		//if( data.animated ){
-			$(this).stop(false, false).animate({
-				top: data.pos.top,
-				left: data.pos.left,
-				height: img.small.h,
-				width: img.small.w
-			}, img.time / 2, cloneAnimateCallback);		
+		$(this).stop(false, false).animate({
+			top: data.pos.top,
+			left: data.pos.left,
+			height: img.small.h,
+			width: img.small.w
+		}, img.time / 2, cloneAnimateCallback);		
 			
-			//console.log( 'clone off' );		
-			
-		//}
 	}
 	
 	function cloneAnimateCallback(e){
