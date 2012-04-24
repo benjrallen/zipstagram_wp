@@ -59,25 +59,29 @@
 			currentImgIndex++;
 			moveCarousel();
 		}
+		
 	}
 	function carouselPrev(e){
 		if( currentImgIndex > 0 ){
 			currentImgIndex--;
 			moveCarousel();
 		}
+		
 	}
 
 //currentImgIndex
 
 	function moveCarousel(){
-		console.log('MOVE CAROUSEL');
-		
 		var left = -1 * carousel.children().eq( currentImgIndex ).position().left + carouselLeft;
-		console.log('MOVE CAROUSEL', left);
+		//console.log('MOVE CAROUSEL', left);
 		$('.clone').trigger('mouseout');
 
-		if( hasTransitions ){
+		if( !hasTransitions ){
 			carousel.css({ left: left });
+		} else {
+			carousel.stop( false, false ).animate({
+				left: left
+			}, img.time);
 		}
 	}
 
