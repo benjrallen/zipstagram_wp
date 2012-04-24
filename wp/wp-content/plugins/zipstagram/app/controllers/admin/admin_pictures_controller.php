@@ -130,7 +130,7 @@ class AdminPicturesController extends MvcAdminController {
       'hashtag_id' => $tag_id,
       'exclude' => 0,
       'instagram_id' => $pic->id,
-      'name' => $pic->user->username.': '.$pic->caption->text,
+      'name' => $pic->user->username.': '.( isset($pic->caption) && isset($pic->caption->text) ? $pic->caption->text : '' ),
       'json' => json_encode( $pic )
     );
 

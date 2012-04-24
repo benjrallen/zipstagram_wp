@@ -96,7 +96,7 @@ var Zip = Zip || {};
 		$.each( data, function(i){
 			//build out the name string
 			var json = JSON.parse( this.json ),
-				label = json.user.username+': '+json.caption.text+' - '+json.id
+				label = json.user.username+': '+(json.caption && json.caption.text ? json.caption.text : '')+' - '+json.id
 				//label = json.user.username+': '+json.caption.text+' - '+json.tags.join(', ')+'; '+json.id
 			
 			console.log( json );
