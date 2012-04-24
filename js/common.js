@@ -164,14 +164,14 @@
 	}
 
 	function resetCarousel(){
-		console.log('RESET CAROUSEL');
+		//console.log('RESET CAROUSEL');
 		
 		$('.clone').remove();
 		carousel.html('');
 	}
 
 	function makeCarouselImage( data ){
-		console.log( 'carousel image', data );
+		//console.log( 'carousel image', data );
 		
 		var pic = $('<div />', {
 			insta_id: data.id
