@@ -29,6 +29,7 @@ body { background: black; height: 100%; font-family: Helvetica, Arial, sans-seri
 	width: 1px;
 	height: 100%;
 	@include inline-block;
+	vertical-align: middle;
 }
 
 
@@ -131,28 +132,176 @@ $header-height: 60px;
 	}
 }
 
+$logo-height: 186px;
+$logo-width: 246px + 2px;
+$logo-left: 8px;
+$big-height: 133px;
+$big-width: 133px;
+$small-height: 75px;
+$small-width: 75px;
+$nav-width: 50px;
+$icon-height: 25px;
+$icon-width: 25px;
+$cont-padd: 6px;
+$trans-time: 0.15s;
+$pic-right: 9px;
+$img-bord: 1px;
+$img-color: lighten( $base-grey, 40% );
+
+.clone{
+	position: fixed;
+	z-index: 2000;
+	border: $img-bord solid $img-color;
+}
+
+
 #footer-wrap{
 	position: fixed; 
 	bottom: 0; 
 	left: 0;
 	width: 100%; 
 	z-index: 3; 
-	
-	& #carousel{
-		min-height: 100px;
+		
+	& #subfooter{
+		//background: #bad;
 		position: relative;
 		z-index: 2;
-		
+		height: $big-height + $img-bord * 2;
+		margin-bottom: -( floor( ( $big-height - $img-bord * 2 - $small-height - $cont-padd*2 ) / 2 ) ) + $cont-padd;
+
 		& #zip-logo { 
-			position: absolute; 
-			top: -1em;
+			position: absolute;
+			z-index: 3;
+			top: 0;
 			right: 0;
-			width: 246px;
-			height: 186px;
+			width: $logo-width;
+			height: $logo-height;
 			@include main-sprite;
 			background-position: 0 0;
 		}
+
+		& #carousel{
+			height: $big-height + $img-bord * 2;
+			position: absolute;
+			z-index: 2;
+			top: 0;
+			left: 0;
+			width: 100%;
+			
+			& #carousel-bg{
+				height: $small-height + $cont-padd * 2;
+				position: absolute;
+				top: floor( ( $big-height + $img-bord * 2 - ( $small-height + $cont-padd * 2) ) / 2);
+				width: 100%;
+				z-index: 1;
+				
+				& #bg-inner{
+					background: $base-grey;
+					@include opacity( 0.55 );
+					height: 100%;
+					margin: 0 $cont-padd;
+				}
+			}
+			& #carousel-wrap{
+				height: $big-height + $img-bord * 2;
+				position: relative;
+				z-index: 2;
+				//background: #bada55;
+				//@include opacity( 0.1 );
+				margin-right: $logo-width + $logo-left;
+				
+				& .nav{
+					height: 100%;
+					width: $nav-width;
+					text-align: center;
+					//background: lighten( red, 40% );
+					position: absolute;
+					
+					& .icon{
+						@include inline-block;
+						vertical-align: middle;
+						height: $icon-height;
+						width: $icon-width;
+						background: red;
+					}
+					&.next{
+						right: 0;
+					}
+					&.prev{
+						left: 0;
+					}
+				}
+				
+				& #carousel-inner{
+					height: $big-height + $img-bord * 2;
+					margin-left: $nav-width;
+					margin-right: $nav-width;
+					position: relative;
+					overflow: hidden;
+					//background: #badaff;
+					
+					& #carousel-images{
+						//padding-left: $nav-width;
+						position: absolute;
+						top: floor( ($big-height - $img-bord * 2 - $small-height) / 2 );
+						left: 0;
+						height: $small-height;
+						width: 999999em;
+						//background: darken( #badaff, 20% );
+						
+						& .pic{
+							height: $small-height;
+							width: $small-width;
+							position: relative;
+							@include float-left;
+							display: block;
+							z-index: 1;
+							margin-right: $pic-right;
+							
+							& img{
+								position: absolute;
+								top: 0;
+								left: 0;
+								display: block;
+								border: $img-bord solid $img-color;
+								height: $small-height;
+								width: $small-width;
+								
+								//@include single-transition( all, $trans-time, ease-in-out );
+							}
+							
+							&:hover{
+								z-index: 2;
+								
+								//& img{
+								//	height: $big-height;
+								//	width: $big-width;
+								//	top: -1 * floor( ($big-height - $small-height) / 2 ) + $img-bord;
+								//	left: -1 * floor( ($big-width - $small-width) / 2 ) + $img-bord;
+								//}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
+
+/*
+<div id="subfooter">
+  <div id="carousel">
+  	<div id="carousel-bg"></div>
+    <div id="carousel-wrap">
+      <div class="nav next"></div>
+      <div class="nav prev"></div>
+      <div id="carousel-inner">
+        <div id="carousel-images"></div>
+      </div>
+    </div>
+  </div>
+	<div id="zip-logo"></div>
+</div>
+*/
 
 /*
  #carousel {
@@ -187,6 +336,7 @@ $header-height: 60px;
 		position: relative;
 		border-top: 1px solid #888; 
 		background-color: #565a5c; 
+		//background-color: #badaff;
 		height: 120px;
 		z-index: 1;
 	}
@@ -227,6 +377,41 @@ $header-height: 60px;
 	padding-right: 1em;
 	@include border-radius( 12px );
 	@include box-shadow( #000 0 6px 24px 0px );
+	
+	$nav-height: 20px;
+	$nav-width: 20px;
+	$nav-spacing: 12px;
+	& .nav{
+		position: absolute;
+		top: 50%;
+		margin-top: -1 * floor( $nav-height / 2);
+		background: #bad;
+		width: $nav-width;
+		height: $nav-height;
+		
+		&.next{
+			right: -( $nav-spacing + $nav-width );
+		}
+		&.prev{
+			left: -( $nav-spacing + $nav-width );
+		}
+	}
+	& .nav, & .close{
+		cursor: pointer;
+		cursor: hand;
+	}
+	& .close{
+		background: red;
+		height: 14px;
+		width: 14px;
+		position: absolute;
+		top: 1em;
+		right: 1em;
+		
+		&:hover{
+			background: darken( red, 20% );
+		}
+	}
 }
 
 

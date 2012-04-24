@@ -60,8 +60,25 @@
 	
 		
 	<div id="footer-wrap">
-  	<div id="carousel">
-
+  	<div id="subfooter">
+  	  <div id="carousel">
+  	    <div id="carousel-bg">
+          <div id="bg-inner"></div>
+  	    </div>
+  	    <div id="carousel-wrap">
+    	    <div class="nav next">
+    	      <div class="line"></div>
+    	      <div class="icon"></div>
+    	    </div>
+    	    <div class="nav prev">
+    	      <div class="line"></div>
+    	      <div class="icon"></div>
+    	    </div>
+          <div id="carousel-inner">
+            <div id="carousel-images"></div>
+          </div>
+  	    </div>
+  	  </div>
     	<div id="zip-logo"></div>
   	</div>
 	  
