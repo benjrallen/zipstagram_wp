@@ -248,6 +248,7 @@ $img-color: lighten( $base-grey, 40% );
 						height: $small-height;
 						width: 999999em;
 						//background: darken( #badaff, 20% );
+						@include single-transition( left, $trans-time, ease-in-out );
 						
 						& .pic{
 							height: $small-height;

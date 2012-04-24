@@ -74,6 +74,7 @@
 		
 		var left = -1 * carousel.children().eq( currentImgIndex ).position().left + carouselLeft;
 		console.log('MOVE CAROUSEL', left);
+		$('.clone').trigger('mouseout');
 
 		if( hasTransitions ){
 			carousel.css({ left: left });
@@ -166,7 +167,6 @@
 		console.log('RESET CAROUSEL');
 		
 		$('.clone').remove();
-		
 		carousel.html('');
 	}
 
