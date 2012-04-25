@@ -2,7 +2,7 @@
  * Try/Catch the console
  */
 try{
-    console.log('Hello Console.');
+    console.log('Hello Ease.');
 } catch(e) {
     window.console = {};
     var cMethods = "assert,count,debug,dir,dirxml,error,exception,group,groupCollapsed,groupEnd,info,log,markTimeline,profile,profileEnd,time,timeEnd,trace,warn".split(",");

@@ -489,6 +489,7 @@
 		this.prev = null;
 		this.content = null;
 		this.closeButton = null;
+		this.ajax = null; //used to track the ajax request for the reverse geocode
 
 		var that = this;
 
@@ -569,6 +570,8 @@
 			var data = getNextPhotoById( this.getInstagramId() );
 
 			this.setContent( makeBlockContent( data.properties ) ).position();
+
+			this.reverseGeocode();
 		}
 
 		that.onPrevClick = function(e){
@@ -577,6 +580,58 @@
 
 			this.setContent( makeBlockContent( data.properties ) ).position();
 
+			this.reverseGeocode();
+		}
+//where		
+		//take the data and get a response.
+		that.reverseGeocode = function(){
+			var where = this.content.find('.where');
+			
+			if( where.length ){
+				var lat = where.attr('lat'),
+					lng = where.attr('lng'),
+					url = 'http://nominatim.openstreetmap.org/reverse';
+
+				var that = this;
+				
+				this.ajax = $.ajax(
+					url,
+					{
+						dataType: 'jsonp',
+						data: {
+							format: 'json',
+							lat: lat,
+							lon: lng,
+							zoom: 10,
+							addressdetails: 1
+						},
+						jsonp: 'json_callback',
+						success: function( data, status, xhr ){
+							that.geocodeSuccess.apply( that, arguments );
+						}
+					}
+				);
+
+			}
+		}
+
+		that.geocodeSuccess = function( data, status, xhr ){
+			//console.log('geocode', data, status, xhr === this.ajax );
+			if( data.address && xhr === this.ajax ){
+				var loc = '';
+				if( data.address.city )
+					loc += data.address.city;
+				
+				if( !data.address.city && data.address.hamlet && data.address.hamlet.toLowerCase() === 'hollywood' )
+					loc += data.address.hamlet;
+				else if( !data.address.city && data.address.county )
+					loc += data.address.county;
+			
+				if( data.address.state )
+					loc += ', '+data.address.state;
+			
+				that.content.find('.location').text(loc);
+			}
 		}
 
 		that.show = function(){
@@ -585,6 +640,9 @@
 			this.popup.css({ zIndex: 1000000 }).show( this.time );
 			if( this.under )
 				this.under.show( 0 );
+
+			this.reverseGeocode();
+
 			return this;
 		}
 

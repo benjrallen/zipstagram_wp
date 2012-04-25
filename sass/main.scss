@@ -327,8 +327,8 @@ $img-color: lighten( $base-grey, 40% );
 								& img{
 									height: $big-height;
 									width: $big-width;
-									top: -1 * floor( ($big-height - $small-height) / 2 ) + $img-bord;
-									left: -1 * floor( ($big-width - $small-width) / 2 ) + $img-bord;
+									top: -1 * floor( ($big-height - $small-height) / 2 );
+									left: -1 * floor( ($big-width - $small-width) / 2 );
 								}
 							}
 						}
@@ -588,14 +588,20 @@ $img-color: lighten( $base-grey, 40% );
 			
 			& span{
 				@include inline-block;
+				vertical-align: baseline;
 				
 				&.title{
 					text-transform: uppercase;
+					//font-family: DINFamily, sans-serif;
 					font-weight: bold;
 					color: $base-green;
 					@include adjust-font-size-to( 11px );
 				}
-				&.location{}
+				&.location{
+					padding-left: 6px;
+					//font-weight: bold;
+					@include adjust-font-size-to( 12px );
+				}
 			}
 		}
 	}
