@@ -1,0 +1,88 @@
+/* Typographic styles */
+
+
+/* Font definitions */
+
+/* fonts for IE version < 9 */
+@font-face {
+    font-family: DINFamily;
+    /*src: url('/fonts/DINWebPro_modified_oldstyle.eot');*/
+    src: url('http://zipcar.com/fonts/dinwebpro-webfont.eot');
+    /* src: url('/fonts/DINWebPro-Black.eot'); */
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: DINFamily;
+    src: url('http://zipcar.com/fonts/DINWebPro-Bold.eot');
+    font-weight: bold;
+}
+/*@font-face {
+    font-family: DINFamily;
+    src: url('http://zipcar.com/fonts/DINWebPro-Light.eot');
+    font-weight: 100;
+}*/
+@font-face {
+    font-family: DINFamily;
+    src: url('http://zipcar.com/fonts/DINWebPro-Medium.eot');
+    font-weight: 500;
+}
+/*@font-face {
+    font-family: DINFamily;
+    src: url('http://zipcar.com/fonts/DINWebPro-Black.eot');
+    font-weight: 900;
+}*/
+
+/* fonts for WOFF-compliant browsers */
+@font-face {
+    font-family: DINFamily;
+    src: url('http://zipcar.com/fonts/DINWebPro.woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: DINFamily;
+    src: url('http://zipcar.com/fonts/DINWebPro-Bold.woff');
+    font-weight: bold;
+}
+/*@font-face {
+    font-family: DINFamily;
+    src: url('http://zipcar.com/fonts/DINWebPro-Light.woff');
+    font-weight: 100;
+}*/
+@font-face {
+    font-family: DINFamily;
+    src: url('http://zipcar.com/fonts/DINWebPro-Medium.woff');
+    font-weight: 500;
+}
+/*@font-face {
+    font-family: DINFamily;
+    src: url('http://zipcar.com/fonts/DINWebPro-Black.woff');
+    font-weight: 900;
+}*/
+
+/* Navigation */
+/*
+#nav li a {
+    font: 11pt DINFamily, sans-serif;
+    font-weight: 500;
+    color: #f1f2f3;
+    text-align: center;
+    padding-top: 2px;
+    margin-top: 0;
+}
+
+#nav ul.nav-main li, #nav ul.nav-main li a {
+    font: 13pt DINFamily, sans-serif;
+    color: #4d4d4f;
+    padding-top: 5px;
+    white-space: nowrap;
+}
+
+#nav ul.nav-main ul li, #nav ul ul.nav-main li a {
+    font: 10pt DINFamily, sans-serif;
+    color: #4d4d4f;
+    padding-top: 2px;
+    text-align: left;
+}
+*/

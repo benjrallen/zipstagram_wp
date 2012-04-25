@@ -12,6 +12,7 @@
 		hasTransitions = false,
 		carousel = null;
 		pic_popup = new Popup( 'popup', 'popunder' ),
+		modal_popup = new Popup( 'modal', 'modalunder', true ),
 		cachePath = 'cache/';
 	
 	//an object for the carousel image heights... match to the sass variables
@@ -44,11 +45,35 @@
 		makeCarousel();
 		//make the map
 		makeMap();
-		
+		//show welcome popup
+		makeWelcome();
 	});
 
+	function makeWelcome(){
+		modal_popup.setContent( $('#modal-content').html() ).show().content.find('button').click(function(){
+			modal_popup.close();
+		});
+		
+		setTimeout(function(){
+			modal_popup.show();
+		}, 50);
+		
+		$('#play-along').click(function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			modal_popup.show();
+			return false;
+		});
+
+		//body gets a click handler to hide the popup
+		$('body').click(function(e){
+			modal_popup.close();
+		});
+
+	}
+
 	function makeCarousel(){
-		console.log('MAKE CAROUSEL');
+		//console.log('MAKE CAROUSEL');
 		
 		carousel = $('#carousel-images');
 		
@@ -60,7 +85,7 @@
 		
 		
 		currentLeft = carouselLeft = parseInt( carousel.css('padding-left').replace('px', '') );
-		console.log('MAKE CAROUSEL', carouselLeft );
+		//console.log('MAKE CAROUSEL', carouselLeft );
 
 		var next = $('#carousel-wrap .next').click( carouselNext );
 		var prev = $('#carousel-wrap .prev').click( carouselPrev );		
@@ -87,7 +112,7 @@
 
 	function moveCarousel(){
 		currentLeft = -1 * carousel.children().eq( currentImgIndex ).position().left + carouselLeft;
-		console.log('MOVE CAROUSEL', currentLeft);
+		//console.log('MOVE CAROUSEL', currentLeft);
 		$('.clone').trigger('mouseout');
 
 		if( hasTransitions ){
@@ -108,7 +133,7 @@
 
 		pic_popup.setContent( makeBlockContent( data.properties ) ).show();
 
-		console.log( 'IMAGE CLICK', data);
+		//console.log( 'IMAGE CLICK', data);
 	}
 	
 
@@ -246,7 +271,7 @@
 
 	function makeMap(){
 		map = new L.Map('map').on('popupopen', function(e){
-			console.log('mappopupopened', e, this);
+			//console.log('mappopupopened', e, this);
 			
 			
 			var content = e.popup._content;
@@ -312,7 +337,7 @@
 									3 : e.properties.likes < 50 ? 
 											6 : 11 );
 
-					console.log(e.properties.likes, size);
+					//console.log(e.properties.likes, size);
 
 					
 					currentData.push({
@@ -333,10 +358,6 @@
 
 				});
 
-/*
-{
-"type":"FeatureCollection","features":[
-*/
 				map.addLayer(geoJsonLayer); //Add layer to map 
 
 			} else {
@@ -414,7 +435,7 @@
 	}
 		
 	function onHashClick(e){
-		console.log( 'HASHCLICK!', $(this).attr('hash') );
+		//console.log( 'HASHCLICK!', $(this).attr('hash') );
 
 		var hash = $(this).attr('hash');
 		$('#nav .current').text( hash )
@@ -456,7 +477,9 @@
 				);
 	}
 	
-	function Popup( id, popunderId ){
+	function Popup( id, popunderId, modal ){
+
+		var modal = modal || false;
 
 		this.popup = null;
 		this.under = null;
@@ -469,22 +492,27 @@
 
 		var that = this;
 
-		var navInner = '<div class="line"></div><div class="icon"></div>'
-
 		if( !$('#'+id).length ){
 			this.popup = $('<div />', { id: id }).prependTo('body');
-			//add the next button
-			this.next = $('<div />', { html: navInner }).addClass('next nav').click(function(e){
-				that.onNextClick.apply( that, arguments );
-			}).appendTo( this.popup );
-			//add the prev button
-			this.prev = $('<div />', { html: navInner }).addClass('prev nav').click(function(e){
-				that.onPrevClick.apply( that, arguments );
-			}).appendTo( this.popup );
+			
+			if( !modal ){
+				var navInner = '<div class="line"></div><div class="icon"></div>';
+				
+				//add the next button
+				this.next = $('<div />', { html: navInner }).addClass('next nav').click(function(e){
+					that.onNextClick.apply( that, arguments );
+				}).appendTo( this.popup );
+				//add the prev button
+				this.prev = $('<div />', { html: navInner }).addClass('prev nav').click(function(e){
+					that.onPrevClick.apply( that, arguments );
+				}).appendTo( this.popup );
+			}
+			
 			//add the close button
 			this.closeButton = $('<div />').addClass('close').click(function(e){
 				that.close.call( that );
 			}).appendTo( this.popup );
+			
 			//add the content holder
 			this.content = $('<div />').addClass('content').appendTo( this.popup );
 			
@@ -512,84 +540,87 @@
 			}
 		}
 
+
+		that.setContent = function( block ){
+			this.content.html( block );
+			return this;
+		}
+
+		that.close = function(){
+			//clearTimeout( this.timeout );
+
+			this.popup.hide( 0, function(){
+				$(this).css({ zIndex: 0 });
+			});
+			if( this.under )
+				this.under.hide( 0 );
+			return this;
+		}
+
+		that.getInstagramId = function(){
+			var wrap = this.content.find('.insta-wrap');
+
+			return ( wrap.length ? wrap.attr('insta_id') : null );
+
+		};
+
+		that.onNextClick = function(e){
+			//console.log( 'NEXT!', e, this );
+			var data = getNextPhotoById( this.getInstagramId() );
+
+			this.setContent( makeBlockContent( data.properties ) ).position();
+		}
+
+		that.onPrevClick = function(e){
+			//console.log( 'PREV!', e, this);
+			var data = getPrevPhotoById( this.getInstagramId() );
+
+			this.setContent( makeBlockContent( data.properties ) ).position();
+
+		}
+
+		that.show = function(){
+			this.position();
+
+			this.popup.css({ zIndex: 1000000 }).show( this.time );
+			if( this.under )
+				this.under.show( 0 );
+			return this;
+		}
+
+		that.position = function(){
+
+			var oW = this.popup.outerWidth(),
+				oH = this.popup.outerHeight()
+
+			if( oW < this.picWidth * 2 )
+				oW += this.picWidth;
+
+			var left = Math.floor( ($(window).width() - oW) / 2 );
+
+
+
+			if( left < 0 )
+				left = 0;
+
+			var top = Math.floor( ($(window).height() - oH) / 2 );
+			if( top < 0 )
+				top = 0;
+
+			this.popup.css({
+				top: top,
+				left: left
+			});
+
+			//console.log('position', oW, oH, left);
+
+			//var that = this;
+
+			//return this.timeout = setTimeout( function(){ that.position.call(that) }, that.timeoutTime );
+		}
+
+
 		return this;
 	}
 
-	Popup.prototype.getInstagramId = function(){
-		var wrap = this.content.find('.insta-wrap');
-				
-		return ( wrap.length ? wrap.attr('insta_id') : null );
-		
-	};
-
-	Popup.prototype.onNextClick = function(e){
-		//console.log( 'NEXT!', e, this );
-		var data = getNextPhotoById( this.getInstagramId() );
-		
-		this.setContent( makeBlockContent( data.properties ) ).position();
-	}
-
-	Popup.prototype.onPrevClick = function(e){
-		//console.log( 'PREV!', e, this);
-		var data = getPrevPhotoById( this.getInstagramId() );
-		
-		this.setContent( makeBlockContent( data.properties ) ).position();
-
-	}
-
-	Popup.prototype.setContent = function( block ){
-		this.content.html( block );
-		return this;
-	}
-
-	Popup.prototype.show = function(){
-		this.position();
-
-		this.popup.css({ zIndex: 1000000 }).show( this.time );
-		if( this.under )
-			this.under.show( 0 );
-		return this;
-	}
-
-	Popup.prototype.close = function(){
-		//clearTimeout( this.timeout );
-
-		this.popup.hide( 0, function(){
-			$(this).css({ zIndex: 0 });
-		});
-		if( this.under )
-			this.under.hide( this.time );
-		return this;
-	}
-
-	Popup.prototype.position = function(){
-
-		var oW = this.popup.outerWidth(),
-			oH = this.popup.outerHeight()
-
-		if( oW < this.picWidth * 2 )
-			oW += this.picWidth;
-
-		var left = Math.floor( ($(window).width() - oW) / 2 );
-		
-
-
-		if( left < 0 )
-			left = 0;
-
-		var top = Math.floor( ($(window).height() - oH) / 2 );
-		if( top < 0 )
-			top = 0;
-
-		this.popup.css({
-			top: top,
-			left: left
-		});
-
-		console.log('position', oW, oH, left);
-
-		//var that = this;
-
-		//return this.timeout = setTimeout( function(){ that.position.call(that) }, that.timeoutTime );
-	}
 })(jQuery);

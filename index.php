@@ -16,10 +16,12 @@
     	},
     	{ test: window.JSON, nope: 'js/json2.js' },
     	<?php /* plugins.js & common.js fordevelopment */ ?>
+    	<?php /* ?>
     	{ load: 'js/plugins.js' },
     	{ load: 'js/common.js' },
+    	<?php */ ?>
     	<?php /* concatenate and optimize seperate script files for deployment using google closure compiler (compiler.jar) in js folder */ ?>
-    	//{ load : 'js/theme.js' },
+    	{ load : 'js/theme.js' },
     	{ load: '//connect.facebook.net/en_US/all.js#xfbml=1' },
     	{ load: '//platform.twitter.com/widgets.js' }
     ]);
@@ -103,6 +105,17 @@
 </div>
 
 <div id="hashtag-json"><?php include 'cache/hashtags.json'; ?></div>
+<div id="modal-content">
+  <article class="insta-wrap modal-wrap">
+    <h2>zipsters don't just sit there - they travel, <br />visit, explore, and share it all using instagram</h2>
+    <h3>we created this nifty page to help you enjoy photographs from zipsters around the world</h3>
+    <div class="content">
+      <strong>play along:</strong>
+      <p>Want to share your photos?  Install the instagram app on your phone. <br />Find and follow @zipcar, then, simply tag your photos with #zipcar. You just be your creative self and we'll take care of the rest.</p>
+    </div>
+    <button>continue</button>
+  </article>
+</div>
 
 </body>
 </html>
