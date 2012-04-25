@@ -17,9 +17,11 @@
     	{ test: window.JSON, nope: 'js/json2.js' },
     	<?php /* plugins.js & common.js fordevelopment */ ?>
     	{ load: 'js/plugins.js' },
-    	{ load: 'js/common.js' }
+    	{ load: 'js/common.js' },
     	<?php /* concatenate and optimize seperate script files for deployment using google closure compiler (compiler.jar) in js folder */ ?>
-    	//{ load : 'js/theme.js' }
+    	//{ load : 'js/theme.js' },
+    	{ load: '//platform.twitter.com/widgets.js' },
+    	{ load: '//connect.facebook.net/en_US/all.js#xfbml=1' }
     ]);
   </script>
 	  	<link rel="stylesheet" href="css/main.css" />
@@ -31,6 +33,7 @@
 </head>
 
 <body>
+<div id="fb-root"></div>
 
 <div id="container">
 	<div id="header">
@@ -83,6 +86,17 @@
   	</div>
 	  
 	  <div id="footer">
+	    <a id="brand" href="http://www.zipcar.com" title="Zipcar">Zipcar</a>
+	    <div class="sm">
+	      <div class="fb-like" data-href="<?php echo $_SERVER['PATH_INFO'] ?>" data-send="false" data-layout="button_count" data-width="60" data-show-faces="false"></div>
+	      <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo $_SERVER['PATH_INFO'] ?>">Tweet</a>
+	    </div>
+	    <div class="links">
+	      <a href="http://www.zipcar.com" title="Join Zipcar">join zipcar</a>
+	      <a href="http://www.zipcar.com/find-cars/" title="Reserve a car with Zipcar">reserve a car</a>
+	      <a href="#" id="play-along" title="Play ">play along</a>
+	    </div>
+	    <div class="copy">Copyright © 2012 Zipcar, Inc. All Rights Reserved.</div>
 	  </div>
 	</div><!-- Footer -->
 	

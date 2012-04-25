@@ -1,4 +1,5 @@
 @import 'partials/base';
+@import 'partials/typography';
 @import 'partials/leaflet';
 
 /* 
@@ -34,6 +35,7 @@ body { background: black; height: 100%; font-family: Helvetica, Arial, sans-seri
 
 
 $header-height: 60px;
+$header-bord: 5px;
 #header{
 	position: fixed;
 	top: 0;
@@ -41,16 +43,18 @@ $header-height: 60px;
 	z-index: 3;
 	width: 100%;
 	height: $header-height;
-	border-bottom: 5px solid $base-green;
+	border-bottom: $header-bord solid $base-green;
 	background-color: $base-white;
+	font-family: DINFamily, sans-serif;
+	
 	
 	& h1{
-		@include adjust-font-size-to( 28px );
+		@include adjust-font-size-to( 32px );
 		//margin: 10px 0 0 30px;
 		height: 100%;
 		font-weight: normal;
 		margin-left: 1em;
-		font-family: "Helvetica", "Arial", sans-serif;
+		//font-family: "Helvetica", "Arial", sans-serif;
 		color: $base-color;
 		
 		& span{
@@ -220,24 +224,46 @@ $img-color: lighten( $base-grey, 40% );
 				margin-right: $logo-width + $logo-left;
 				
 				& .nav{
-					height: 100%;
+					//height: 100%;
+					height: $small-height + $cont-padd * 2;
+					top: floor( ( ($big-height + $img-bord * 2) - ( $small-height + $cont-padd * 2 ) ) / 2 );
 					width: $nav-width;
 					text-align: center;
 					//background: lighten( red, 40% );
 					position: absolute;
+					cursor: pointer;
+					cursor: hand;
 					
 					& .icon{
+						@include main-sprite;
 						@include inline-block;
 						vertical-align: middle;
 						height: $icon-height;
 						width: $icon-width;
-						background: red;
 					}
 					&.next{
 						right: 0;
+						& .icon{
+							background-position: -30px -330px;
+						}
+
+						&:hover{
+							& .icon{
+								background-position: -30px -360px;
+							}
+						}
 					}
 					&.prev{
 						left: 0;
+						& .icon{
+							background-position: 0 -330px;
+						}
+
+						&:hover{
+							& .icon{
+								background-position: 0 -360px;
+							}
+						}
 					}
 				}
 				
@@ -252,7 +278,7 @@ $img-color: lighten( $base-grey, 40% );
 					& #carousel-images{
 						//padding-left: $nav-width;
 						position: absolute;
-						top: floor( ($big-height - $img-bord * 2 - $small-height) / 2 );
+						top: floor( ($big-height - $small-height) / 2 );
 						left: 0;
 						height: $small-height;
 						width: 999999em;
@@ -301,58 +327,32 @@ $img-color: lighten( $base-grey, 40% );
 		}
 	}
 
-/*
-<div id="subfooter">
-  <div id="carousel">
-  	<div id="carousel-bg"></div>
-    <div id="carousel-wrap">
-      <div class="nav next"></div>
-      <div class="nav prev"></div>
-      <div id="carousel-inner">
-        <div id="carousel-images"></div>
-      </div>
-    </div>
-  </div>
-	<div id="zip-logo"></div>
-</div>
-*/
-
-/*
- #carousel {
-		position: fixed; 
-		bottom: 130px;
-     width: 100%;
-     background-color: #000;
-     height: 70px;
-     padding: 10px 0;
-     background-color: rgba(0, 0, 0, .3);
- }
- 
- #carousel img { float: left; display: block; margin-left: 8px;}
- 
-#carousel .zoom {
-		float: left;
-     z-index: 0;
- }
-#carousel .end {
-     margin-right: 0;
- }
- //.clear {
- //    clear: both;
- //}
-#carousel .zoom a img {
-     position: relative;
- }
-*/
-
 	
 	& #footer{
 		position: relative;
 		border-top: 1px solid #888; 
 		background-color: #565a5c; 
 		//background-color: #badaff;
-		height: 120px;
+		height: 70px;
 		z-index: 1;
+		text-align: center;
+		
+		& #brand{
+			display: block;
+			@include main-sprite;
+			background-position: -300px 0;
+			height: 44px;
+			width: 124px;
+			position: absolute;
+			left: 8px;
+			bottom: 4px;
+			@include opacity( 0.8 );
+			text-indent: -9999em;
+			
+			&:hover{
+				@include opacity(1);
+			}
+		}
 	}
 }
 
@@ -389,8 +389,8 @@ $img-color: lighten( $base-grey, 40% );
 	@include border-radius( 12px );
 	@include box-shadow( #000 0 6px 24px 0px );
 	
-	$nav-height: 20px;
-	$nav-width: 20px;
+	$nav-height: 25px;
+	$nav-width: 25px;
 	$nav-spacing: 12px;
 	& .nav{
 		position: absolute;
@@ -400,19 +400,38 @@ $img-color: lighten( $base-grey, 40% );
 		
 		&.next{
 			right: -( $nav-spacing + $nav-width );
+			& .icon{
+				background-position: -30px -330px;
+			}
+			
+			&:hover{
+				& .icon{
+					background-position: -30px -360px;
+				}
+			}
 		}
 		&.prev{
 			left: -( $nav-spacing + $nav-width );
+			& .icon{
+				background-position: 0 -330px;
+			}
+			
+			&:hover{
+				& .icon{
+					background-position: 0 -360px;
+				}
+			}
 		}
 		
 		& .icon{
+			
+			@include main-sprite;
 			@include inline-block;
 			vertical-align: middle;
 			position: absolute;
 			top: 50%;
 			left: 0;
 			margin-top: -1 * floor( $nav-height / 2);
-			background: #bad;
 			width: $nav-width;
 			height: $nav-height;
 		}
@@ -514,44 +533,9 @@ $img-color: lighten( $base-grey, 40% );
 	}
 }
 
-/*
-function makeBlockContent( data ){
-	console.log( 'makeBlockContent', data );
-	
-	var block = '<div class="insta-wrap">'+
-					makeImageBlock( data.images.low_resolution )+
-					'<div class="info">'+
-						makeUserBlock( data.profile_picture, data.user )+
-						'<div class="description">'+
-							data.description+
-						'</div>'+
-						makeWhereZip( data.latitude, data.longitude )+
-					'</div>'+
-				'</div>';
-	
-	return block;
+.leaflet-top {
+	top: $header-height + $header-bord;
 }
-
-function makeWhereZip( lat, lng ){
-	return '<div lat="'+lat+'" lng="'+lng+'" class="where">'+
-				'<span class="title">Where I Zip</span>'+
-				'<span class="location"></span>'+
-			'</div>';
-}
-
-function makeUserBlock( pic, name ){
-	return '<div class="user">'+
-				'<span class="user-pic"><img src="'+pic+'" /></span>'+
-				'<span class="user-name">'+name+'</span>'+
-			'</div>';
-}
-
-function makeImageBlock( img ){
-	return '<div class="pic">'+
-				'<img src="'+img.url+'" />'+
-			'</div>'
-}
-*/
 
 .clearfix, .clear{
 	@include pie-clearfix;
