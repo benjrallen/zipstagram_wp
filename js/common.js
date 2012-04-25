@@ -270,8 +270,11 @@
 
 		map.setView(new L.LatLng(46, -52), 3).addLayer(cloudmade);
 
-		//trigger a click on the first hashtag in the list
-		return loadMapData( hashSelect.children().first().attr('hash') );
+		//load the first hashtag in the list
+		var hash = hashSelect.children().first().attr('hash')
+		$('#nav .current').text( hash )
+		
+		return loadMapData( hash );
 
 	}
 
@@ -290,7 +293,7 @@
 						//console.log( latlng, 'pointtolayer', this );
 						
 						return new L.CircleMarker(latlng, {
-							radius: 8,
+							radius: 2,
 							fillColor: "#fecb00",
 							color: "#fecb00",
 							weight: 1,
@@ -303,12 +306,21 @@
 					}
 				}).on('featureparse', function(e){
 					
-					//console.log('featureparse', e, this, e.properties);
+					//console.log('featureparse', e, this, e.properties, e.properties.likes);
+					
+					var size = ( e.properties.likes < 10 ?
+									3 : e.properties.likes < 50 ? 
+											6 : 11 );
+
+					console.log(e.properties.likes, size);
+
 					
 					currentData.push({
 						id: e.properties.id,
 						properties: e.properties
 					});
+					
+					e.layer.setRadius( size );
 					
 					var block = makeBlockContent(e.properties);
 					
@@ -403,8 +415,11 @@
 		
 	function onHashClick(e){
 		console.log( 'HASHCLICK!', $(this).attr('hash') );
+
+		var hash = $(this).attr('hash');
+		$('#nav .current').text( hash )
 		
-		return loadMapData( $(this).attr('hash') );
+		return loadMapData( hash );
 		
 	}
 

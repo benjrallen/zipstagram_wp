@@ -20,8 +20,8 @@
     	{ load: 'js/common.js' },
     	<?php /* concatenate and optimize seperate script files for deployment using google closure compiler (compiler.jar) in js folder */ ?>
     	//{ load : 'js/theme.js' },
-    	{ load: '//platform.twitter.com/widgets.js' },
-    	{ load: '//connect.facebook.net/en_US/all.js#xfbml=1' }
+    	{ load: '//connect.facebook.net/en_US/all.js#xfbml=1' },
+    	{ load: '//platform.twitter.com/widgets.js' }
     ]);
   </script>
 	  	<link rel="stylesheet" href="css/main.css" />
@@ -46,7 +46,7 @@
 		  <div id="nav">
 		    <span class="rough">
 		      <span class="view">View</span>
-          <span class="current">everyone</span>
+          <span class="current">zipcar</span>
 		    </span>
 		    <span class="hashtag">
 		      <span class="text">Hashtag</span>

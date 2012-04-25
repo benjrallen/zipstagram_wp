@@ -16,7 +16,7 @@ html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,addre
 
 
 html { height: 100%;}
-body { background: black; height: 100%; font-family: Helvetica, Arial, sans-serif; }
+body { background: black; height: 100%; min-width: 600px; font-family: Helvetica, Arial, sans-serif; }
 
 
 #container {
@@ -56,6 +56,7 @@ $header-bord: 5px;
 		margin-left: 1em;
 		//font-family: "Helvetica", "Arial", sans-serif;
 		color: $base-color;
+		line-height: $header-height;
 		
 		& span{
 			@include inline-block;
@@ -70,36 +71,41 @@ $header-bord: 5px;
 		
 		& .line, & #nav{
 			@include inline-block;
+			vertical-align: middle;
 		}
 				
 		& #nav{
-			@include adjust-font-size-to( 14px, 0.5 );
+			@include adjust-font-size-to( 14px, 1 );
 			text-transform: lowercase;
 			padding-right: 4em;
-			
+
 			& span{
 				@include inline-block;
 			
 				&.view{
 					color: $base-green;
+					padding-right: 6px;
+					font-weight: bold;
 				}
 				&.current{
-					
+					border-right: 1px solid $base-color;
+					padding-right: 6px;
 				}
 				&.hashtag{
-					border-left: 1px solid $base-color;
-					padding-left: 0.5em;
-					margin-left: 0.5em;
+					padding-left: 6px;
 					color: $base-green;
 					position: relative;
+					font-weight: bold;
 					cursor: pointer;
 					cursor: hand;
+					margin-bottom: -1px;
 					
 					$selectRad: 6px;
 					& #hashSelect{
 						@include adjust-font-size-to( 12px, 1.25 );
 						background: $base-white;
 						display: none;
+						font-weight: normal;
 						right: 0;
 						top: 2em;
 						@include pie;
@@ -128,7 +134,8 @@ $header-bord: 5px;
 						background-position: 0 -260px;
 						height: 11px;
 						width: 11px;
-						margin-left: 0.25em;
+						margin-left: 3px;
+						margin-bottom: 1px;
 					}
 				}
 			}
@@ -155,6 +162,8 @@ $img-color: lighten( $base-grey, 40% );
 .clone{
 	position: fixed;
 	z-index: 2000;
+	cursor: pointer;
+	cursor: hand;
 	
 	& img{
 		border: $img-bord solid $img-color;
@@ -293,6 +302,8 @@ $img-color: lighten( $base-grey, 40% );
 							display: block;
 							z-index: 1;
 							margin-right: $pic-right;
+							cursor: pointer;
+							cursor: hand;
 							
 							& img{
 								position: absolute;
@@ -333,7 +344,7 @@ $img-color: lighten( $base-grey, 40% );
 		border-top: 1px solid #888; 
 		background-color: #565a5c; 
 		//background-color: #badaff;
-		height: 70px;
+		//height: 70px;
 		z-index: 1;
 		text-align: center;
 		
@@ -353,8 +364,54 @@ $img-color: lighten( $base-grey, 40% );
 				@include opacity(1);
 			}
 		}
+		
+		& .sm{
+			//@include padding-leader;
+			//@include padding-trailer;
+			padding: 12px 0 9px;
+			
+			& .fb-like, & .twitter-share-button{
+				@include inline-block;
+				vertical-align: middle;
+			}
+			.twitter-share-button{
+				text-indent: -9999em;
+			}
+		}
+		
+		& .links{
+			$a-padd: 9px;
+			//@include margin-trailer( -0.25 );
+			& a{
+				color: $base-orange;
+				text-decoration: none;
+				font-weight: 800;
+				@include adjust-font-size-to( 15px, 1 );
+				padding-right: $a-padd;
+				padding-left: $a-padd;
+				border-right: 2px solid lighten( $base-grey, 40% );
+				
+				&#play-along{
+					border-right: none;
+				}
+				
+				&:hover{
+					text-decoration: underline;
+				}
+			}
+		}
+		& .copy{
+			color: lighten( $base-grey, 40% );
+			font-weight: 800;
+			@include adjust-font-size-to(10px);
+		}
 	}
 }
+
+#play-along{
+	border-right: none;
+}
+
 
 #map{
 	height: 100%;
@@ -441,15 +498,16 @@ $img-color: lighten( $base-grey, 40% );
 		cursor: hand;
 	}
 	& .close{
-		background: red;
-		height: 14px;
-		width: 14px;
+		@include inline-block;
+		height: 10px;
+		width: 10px;
+		background-position: 0 -290px;
 		position: absolute;
 		top: 1em;
 		right: 1em;
 		
 		&:hover{
-			background: darken( red, 20% );
+			background-position: -15px -290px;
 		}
 	}
 }
