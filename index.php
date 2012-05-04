@@ -88,7 +88,6 @@
   	</div>
 	  
 	  <div id="footer">
-	    <a id="brand" href="http://www.zipcar.com" title="Zipcar">Zipcar</a>
 	    <div class="sm">
 	      <div class="fb-like" data-href="<?php echo $_SERVER['PATH_INFO'] ?>" data-send="false" data-layout="button_count" data-width="60" data-show-faces="false"></div>
 	      <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo $_SERVER['PATH_INFO'] ?>">Tweet</a>
@@ -101,6 +100,8 @@
 	    <div class="copy">Copyright © 2012 Zipcar, Inc. All Rights Reserved.</div>
 	  </div>
 	</div><!-- Footer -->
+
+  <a id="brand" href="http://www.zipcar.com" title="Zipcar">Zipcar</a>
 	
 </div>
 

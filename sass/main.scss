@@ -16,7 +16,7 @@ html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,addre
 
 
 html { height: 100%;}
-body { background: black; height: 100%; min-width: 600px; font-family: Helvetica, Arial, sans-serif; }
+body { background: black; height: 100%; min-width: 600px; font-family: Arial, Helvetica, sans-serif; }
 
 
 #container {
@@ -47,6 +47,7 @@ $header-bord: 5px;
 	background-color: $base-white;
 	font-family: DINFamily, sans-serif;
 	
+	//background-color: desaturate( #fecb00, 10% );
 	
 	& h1{
 		@include adjust-font-size-to( 32px );
@@ -57,6 +58,8 @@ $header-bord: 5px;
 		//font-family: "Helvetica", "Arial", sans-serif;
 		color: $base-color;
 		line-height: $header-height;
+		
+		//background-color: desaturate( #fecb00, 30% );
 		
 		& span{
 			@include inline-block;
@@ -150,7 +153,7 @@ $big-height: 133px;
 $big-width: 133px;
 $small-height: 75px;
 $small-width: 75px;
-$nav-width: 50px;
+$nav-width: 80px;
 $icon-height: 25px;
 $icon-width: 25px;
 $cont-padd: 6px;
@@ -338,6 +341,7 @@ $img-color: lighten( $base-grey, 40% );
 		}
 	}
 
+
 	
 	& #footer{
 		position: relative;
@@ -347,23 +351,7 @@ $img-color: lighten( $base-grey, 40% );
 		//height: 70px;
 		z-index: 1;
 		text-align: center;
-		
-		& #brand{
-			display: block;
-			@include main-sprite;
-			background-position: -300px 0;
-			height: 44px;
-			width: 124px;
-			position: absolute;
-			left: 8px;
-			bottom: 4px;
-			@include opacity( 0.8 );
-			text-indent: -9999em;
-			
-			&:hover{
-				@include opacity(1);
-			}
-		}
+		@include padding-trailer(0.5);
 		
 		& .sm{
 			//@include padding-leader;
@@ -408,6 +396,26 @@ $img-color: lighten( $base-grey, 40% );
 	}
 }
 
+
+#brand{
+	display: block;
+	@include main-sprite;
+	background-position: -300px 0;
+	height: 44px;
+	width: 124px;
+	position: absolute;
+	right: 108px;
+	bottom: 4px;
+	z-index: 200;
+	//@include opacity( 0.8 );
+	text-indent: -9999em;
+	
+	//&:hover{
+	//	@include opacity(1);
+	//}
+}
+
+
 #play-along{
 	border-right: none;
 }
@@ -440,6 +448,18 @@ $img-color: lighten( $base-grey, 40% );
 		      zoom: 1;
 	}
 }
+
+.totalUnder{
+	display: block;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 100000;
+	display: none;
+}
+
 #popup, #modal{
 	z-index: 0;
 	@include pie;
@@ -452,6 +472,7 @@ $img-color: lighten( $base-grey, 40% );
 	padding: 16px 12px;
 	@include border-radius( 12px );
 	@include box-shadow( #000 0 6px 24px 0px );
+		
 	
 	$nav-height: 25px;
 	$nav-width: 25px;
