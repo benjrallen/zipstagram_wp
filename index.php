@@ -41,7 +41,7 @@
 	<div id="header">
 		<h1>
 		  <span class="line"></span>
-		  <span class="text">instagram + zipcar</span>
+		  <span class="text">zipcar + instagram</span>
 		</h1>
 		<div class="right">
 		  <div class="line"></div>
