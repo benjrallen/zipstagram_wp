@@ -111,16 +111,20 @@
 //currentImgIndex
 
 	function moveCarousel(){
-		currentLeft = -1 * carousel.children().eq( currentImgIndex ).position().left + carouselLeft;
-		//console.log('MOVE CAROUSEL', currentLeft);
-		$('.clone').trigger('mouseout');
+		var el = carousel.children().eq( currentImgIndex );
+		
+		if( el.length ){
+			currentLeft = -1 * el.position().left + carouselLeft;
+			console.log('MOVE CAROUSEL', currentLeft);
+			$('.clone').trigger('mouseout');
 
-		if( hasTransitions ){
-			carousel.css({ left: currentLeft });
-		} else {
-			carousel.stop( false, false ).animate({
-				left: left
-			}, img.time);
+			if( hasTransitions ){
+				carousel.css({ left: currentLeft });
+			} else {
+				carousel.stop( false, false ).animate({
+					left: left
+				}, img.time);
+			}
 		}
 	}
 
