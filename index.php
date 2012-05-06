@@ -59,9 +59,7 @@
 	  </div>
 	</div>
 
-<!-- <img src="images/orangearrow.png" /> -->
-
-	<div id="map"></div><!-- Map gets inserted here -->
+	<div id="map"></div>
 	
 		
 	<div id="footer-wrap">
@@ -106,6 +104,7 @@
 </div>
 
 <div id="hashtag-json"><?php include 'cache/hashtags.json'; ?></div>
+<div id="cache-version" style="display:none;"><?php include 'cache/instahash_cache_version_number.json'; ?></div>
 <div id="modal-content">
   <article class="insta-wrap modal-wrap">
     <h2>zipsters don't just sit there - they travel, <br />visit, explore, and share it all using instagram</h2>

@@ -1,6 +1,6 @@
 <?php
 
-class ZipstagramLoader extends MvcPluginLoader {
+class InstahashLoader extends MvcPluginLoader {
 
 	var $db_version = '1.0.4';
 	var $tables = array();
@@ -15,7 +15,7 @@ class ZipstagramLoader extends MvcPluginLoader {
 
 		require_once ABSPATH.'wp-admin/includes/upgrade.php';
 	
-		add_option('zipstagram_db_version', $this->db_version);
+		add_option('instahash_db_version', $this->db_version);
 		
 		// Use dbDelta() to create the tables for the app here
 		// $sql = '';

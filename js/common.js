@@ -13,7 +13,8 @@
 		carousel = null;
 		pic_popup = new Popup( 'popup', 'popunder' ),
 		modal_popup = new Popup( 'modal', 'modalunder', true ),
-		cachePath = 'cache/';
+		cachePath = 'cache/',
+		cacheVersion = 0;		
 	
 	//an object for the carousel image heights... match to the sass variables
 	var img = {
@@ -39,6 +40,8 @@
 		//test for css transitions
 		hasTransitions = ( $('html.csstransitions').length ? true : false );
 		
+		cacheVersion = $('#cache-version').text();
+
 		//create the hashtag select list
 		makeHashtagList();
 		//make the carousel
@@ -248,9 +251,12 @@
 
 	function resetCarousel(){
 		//console.log('RESET CAROUSEL');
+
+		currentLeft = 0; //updated in moveCarousel
+		currentImgIndex = 0; //used for the carousel
 		
 		$('.clone').remove();
-		carousel.html('');
+		carousel.html('').css({ left: carouselLeft });
 	}
 
 	function makeCarouselImage( data ){
@@ -311,7 +317,7 @@
 
 	function loadMapData( hashName ){
 		
-		$.getJSON( cachePath+hashName+'.json', function( data ){
+		$.getJSON( cachePath+hashName+'.json?'+cacheVersion, function( data ){
 			currentData = [];
 			
 			resetCarousel();
