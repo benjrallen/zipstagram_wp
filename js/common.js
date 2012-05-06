@@ -118,7 +118,7 @@
 		
 		if( el.length ){
 			currentLeft = -1 * el.position().left + carouselLeft;
-			console.log('MOVE CAROUSEL', currentLeft);
+			//console.log('MOVE CAROUSEL', currentLeft);
 			$('.clone').trigger('mouseout');
 
 			if( hasTransitions ){
