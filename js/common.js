@@ -139,6 +139,7 @@
 		
 
 		pic_popup.setContent( makeBlockContent( data.properties ) ).show();
+		moveMap( data.properties );
 
 		//console.log( 'IMAGE CLICK', data);
 	}
@@ -283,12 +284,15 @@
 		map = new L.Map('map').on('popupopen', function(e){
 			//console.log('mappopupopened', e, this);
 			
-			
-			var content = e.popup._content;
+			//e.popup._close();			
+			var content = e.popup._content,
+				//data = e.popup.options.properties,
+				that = this;
 			
 			pic_popup.setContent( content ).show();
-			
-			
+
+			moveMap( e.popup.options.properties );
+
 			return e.popup._close();
 		});
 
@@ -337,7 +341,7 @@
 							fillOpacity: 0.9
 							//bindPopup: Whazza
 						// }).on('click', function(e){
-						// 	console.log('MARKER CLICK!', e, this);
+						//  	console.log('MARKER CLICK!', e, this, e.latlng.lat, e.latlng.lng);
 						});	
 					}
 				}).on('featureparse', function(e){
@@ -371,7 +375,8 @@
 					
 					var block = makeBlockContent(e.properties);
 					
-					e.layer.bindPopup( block, { autoPan: false });
+					//push the properties into the marker.
+					e.layer.bindPopup( block, { autoPan: false, properties: e.properties });
 					//e.layer.bindPopup( block, { autoPan: true });
 					
 					//put it in the carousel
@@ -504,6 +509,11 @@
 				);
 	}
 	
+	//data is the properties object passed around to the markers
+	function moveMap( data ){
+		map.setView( new L.LatLng( data.latitude, data.longitude ), 14, false );
+	}
+	
 	function Popup( id, popunderId, modal ){
 
 		var modal = modal || false;
@@ -602,6 +612,9 @@
 
 			this.setContent( makeBlockContent( data.properties ) ).position();
 
+			moveMap( data.properties );
+			//map.setView( new L.LatLng( data.properties.latitude, data.properties.longitude ), 14, false );
+
 			this.reverseGeocode();
 		}
 
@@ -610,6 +623,9 @@
 			var data = getPrevPhotoById( this.getInstagramId() );
 
 			this.setContent( makeBlockContent( data.properties ) ).position();
+
+			moveMap( data.properties );
+			//map.setView( new L.LatLng( data.properties.latitude, data.properties.longitude ), 14, false );
 
 			this.reverseGeocode();
 		}
