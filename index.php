@@ -107,7 +107,7 @@
 <div id="cache-version" style="display:none;"><?php include 'cache/instahash_cache_version_number.json'; ?></div>
 <div id="modal-content">
   <article class="insta-wrap modal-wrap">
-    <h2>zipsters don't just sit there - they travel, <br />visit, explore, and share it all using instagram</h2>
+    <h2>zipsters don't just sit there</h2>
     <h3>we created this nifty page to help you enjoy photographs from zipsters around the world</h3>
     <div class="content">
       <strong>play along:</strong>
