@@ -28,7 +28,7 @@
   </script>
 	  	<link rel="stylesheet" href="css/main.css" />
 
-		<title></title>
+		<title>Zipcar + Instagram</title>
 		<meta name="description" content="" />
 	  <meta name="keywords" content="" />
 		<meta name="robots" content="" />
