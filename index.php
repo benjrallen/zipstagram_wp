@@ -45,10 +45,14 @@
 		</h1>
 		<div class="right">
 		  <div class="line"></div>
+		  		      <div class="sm">
+	      	    <div class="fb-like" data-href="<?php echo $_SERVER['PATH_INFO'] ?>" data-send="false" data-layout="button_count" data-width="60" data-show-faces="false"></div>
+	            <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo $_SERVER['PATH_INFO'] ?>">Tweet</a>
+	          </div>
 		  <div id="nav">
 		    <span class="rough">
 		      <span class="view">View</span>
-          <span class="current">zipcar</span>
+          	  <span class="current">zipcar</span>
 		    </span>
 		    <span class="hashtag">
 		      <span class="text">Hashtag</span>
@@ -86,10 +90,6 @@
   	</div>
 	  
 	  <div id="footer">
-	    <div class="sm">
-	      <div class="fb-like" data-href="<?php echo $_SERVER['PATH_INFO'] ?>" data-send="false" data-layout="button_count" data-width="60" data-show-faces="false"></div>
-	      <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo $_SERVER['PATH_INFO'] ?>">Tweet</a>
-	    </div>
 	    <div class="links">
 	      <a href="http://www.zipcar.com" title="Join Zipcar">join zipcar</a>
 	      <a href="http://www.zipcar.com/find-cars/" title="Reserve a car with Zipcar">reserve a car</a>
