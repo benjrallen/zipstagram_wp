@@ -43,6 +43,12 @@
 		  <span class="line"></span>
 		  <span class="text">zipcar + instagram</span>
 		</h1>
+		
+		  <div class="sm">
+		  	<div class="fb-like" data-href="<?php echo $_SERVER['PATH_INFO'] ?>" data-send="false" data-layout="button_count" data-width="60" data-show-faces="false"></div>
+	        <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo $_SERVER['PATH_INFO'] ?>">Tweet</a>
+		  </div>		
+		
 		<div class="right">
 		  <div class="line"></div>
 		  <div id="nav">
@@ -56,6 +62,9 @@
           <div id="hashSelect"></div>
 		    </span>
 		  </div>
+		  
+		  
+		  
 	  </div>
 	</div>
 
@@ -86,9 +95,9 @@
   	</div>
 	  
 	  <div id="footer">
-	    <div class="sm">
-	      <div class="fb-like" data-href="<?php echo $_SERVER['PATH_INFO'] ?>" data-send="false" data-layout="button_count" data-width="60" data-show-faces="false"></div>
-	      <a href="https://twitter.com/share" class="twitter-share-button" data-url="<?php echo $_SERVER['PATH_INFO'] ?>">Tweet</a>
+	    <div class="blank">
+
+	      <div class="slug"></div>
 	    </div>
 	    <div class="links">
 	      <a href="http://www.zipcar.com" title="Join Zipcar">join zipcar</a>

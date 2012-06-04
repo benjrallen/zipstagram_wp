@@ -76,6 +76,8 @@ $header-bord: 5px;
 			@include inline-block;
 			vertical-align: middle;
 		}
+		
+
 				
 		& #nav{
 			@include adjust-font-size-to( 14px, 1 );
@@ -144,6 +146,25 @@ $header-bord: 5px;
 			}
 		}
 	}
+	
+	
+		& .sm{
+			//@include padding-leader;
+			//@include padding-trailer;
+			//padding: 12px 0 9px;
+			position: absolute;
+			right: 270px; 
+			top: 18px;
+			
+			
+			& .fb-like, & .twitter-share-button{
+				@include inline-block;
+				vertical-align: middle;
+			}
+			.twitter-share-button{
+				text-indent: -9999em;
+			}
+		}	
 }
 
 $logo-height: 186px;
@@ -353,7 +374,7 @@ $img-color: lighten( $base-grey, 40% );
 		text-align: center;
 		@include padding-trailer(0.5);
 		
-		& .sm{
+		& .blank{
 			//@include padding-leader;
 			//@include padding-trailer;
 			padding: 12px 0 9px;
@@ -365,7 +386,14 @@ $img-color: lighten( $base-grey, 40% );
 			.twitter-share-button{
 				text-indent: -9999em;
 			}
+			
+			& .slug { 
+				@include inline-block;
+				vertical-align: middle;
+				height: 21px;
+			}
 		}
+	
 		
 		& .links{
 			$a-padd: 9px;
